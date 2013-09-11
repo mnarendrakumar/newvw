@@ -8,7 +8,8 @@ class Home extends MY_Controller {
 
     public function index()
     {
-        $this->load->view('home/index');
+        $data['from_page']='home';
+		$this->load->view('home/index',$data);
     }
 
 }

@@ -1,100 +1,102 @@
+<?php 
+$home_cls = '';
+$bokrooms_cls = '';
+$chk_out_cls = '';
+$day_rep_cls = '';
+$pnd_chkout_cls = '';
+$rom_rplc_cls = '';
+
+if(isset($from_page) && $from_page == 'home')
+{
+	$home_cls = 'active';
+}
+if(isset($from_page) && $from_page == 'room_booking')
+{
+	$bokrooms_cls = 'active';
+}
+if(isset($from_page) && $from_page == 'check_out')
+{
+	$chk_out_cls = 'active';
+}
+if(isset($from_page) && $from_page == 'replaceRoom')
+{
+	$rom_rplc_cls = 'active';
+}
+if(isset($from_page) && $from_page == 'day_report')
+{
+	$day_rep_cls = 'active';
+}
+if(isset($from_page) && $from_page == 'pending_checkout')
+{
+	$pnd_chkout_cls = 'active';
+}
 
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+?>
+
+<link href="<?php echo base_url();  ?>public/css/menu-styles.css" rel="stylesheet" type="text/css" />
+
+
+<table width="1003" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
         <td colspan="2" align="center" class="footer_text"><img src="<?php echo base_url();  ?>public/images/logo.png" /></td>
     </tr>
     <tr>
-        <td align="center" bgcolor="#BFA06B" class="footer_text"><table width="60%" border="0" align="left" cellpadding="5" cellspacing="0">
-                <tr>
-                    <td width="10%"><table width="60" border="0" align="left" cellpadding="0" cellspacing="0">
-                            <tr>
-                                <td width="7" align="left" valign="middle">&nbsp;</td>
-                                <td width="76" height="25" align="left" valign="middle"  ><a href="<?php echo base_url();?>home" style="color:#FFF;" class="white_heading_txt_16px">Home </a></td>
-                            </tr>
-                            <tr>
-                                <td height="1" colspan="2" ></td>
-                            </tr>
-                        </table></td>
-
-                    <td width="10%"><table width="100" border="0" align="left" cellpadding="0" cellspacing="0">
-                            <tr>
-                                <td width="5" align="left" valign="middle">&nbsp;</td>
-                                <td width="132" height="25" align="left" valign="middle"  ><a href="<?php echo base_url();?>booking" style="color:#FFF;" class="white_heading_txt_16px">Book a Room</a></td>
-                            </tr>
-                            <tr>
-                                <td height="1" colspan="2" ></td>
-                            </tr>
-                        </table></td>
-                    <td width="10%"><table width="80" border="0" align="left" cellpadding="0" cellspacing="0">
-                            <tr>
-                                <td width="5" align="left" valign="middle">&nbsp;</td>
-                                <td width="125" height="25" align="left" valign="middle" ><a href="<?php echo base_url();?>booking/checkOut" style="color:#FFF;" class="white_heading_txt_16px">Check Out  </a></td>
-                            </tr>
-                            <tr>
-                                <td height="1" colspan="2" ></td>
-                            </tr>
-                        </table></td>
-                    <td width="29%"><table width="90" border="0" align="left" cellpadding="0" cellspacing="0">
-                            <tr>
-                                <td width="5" align="left" valign="middle">&nbsp;</td>
-                                <td width="101" height="25" align="left" valign="middle"  ><a href="<?php echo base_url();?>booking/getDayReport"style="color:#FFF;"  class="white_heading_txt_16px">Day Report</a></td>
-                            </tr>
-                            <tr>
-                                <td height="1" colspan="2" ></td>
-                            </tr>
-                        </table></td>
-                    <td width="10%"><table width="160" border="0" align="left" cellpadding="0" cellspacing="0">
-                            <tr>
-                                <td width="5" align="left" valign="middle">&nbsp;</td>
-                                <td height="25" align="left" valign="middle"  ><a href="<?php echo base_url();?>booking/pendingCheckout" style="color:#FFF;" class="white_heading_txt_16px">Pending Checkout<span id="penco" style="color:#C92020">(0)</span></a></td>
-                            </tr>
-                            <tr>
-                                <td height="1" colspan="2" ></td>
-                            </tr>
-                        </table></td>
-                    <td width="10%"><table width="140" border="0" align="left" cellpadding="0" cellspacing="0">
-                            <tr>
-                                <td width="5" align="left" valign="middle">&nbsp;</td>
-                                <td height="25" align="left" valign="middle"  ><a href="<?php echo base_url();?>booking/replaceRoom" style="color:#FFF;" class="white_heading_txt_16px">Room Replace</a></td>
-                            </tr>
-                            <tr>
-                                <td height="1" colspan="2" ></td>
-                            </tr>
-                        </table></td>
-                </tr>
-            </table></td>
-        <td width="40%" align="center" bgcolor="#BFA06B" class="footer_text">
-            <table border="0" align="right" cellpadding="0" cellspacing="0" width="98%">
-                <tr>
-                    <?php
+        <td align="center" bgcolor="#BFA06B" class="footer_text">
+            
+            <div id='cssmenu'>
+<ul>
+   <li class='<?php echo $home_cls;?>'><a href="<?php echo base_url();?>home"><span>Home</span></a></li>
+   <li class='has-sub <?php echo $bokrooms_cls;?>'><a href="<?php echo base_url();?>booking"><span>Book a Rooms</span></a></li>
+   <li class='has-sub <?php echo $chk_out_cls;?>'><a href="<?php echo base_url();?>booking/checkOut"><span>Check Out</span></a></li>
+   <li class='last <?php echo $rom_rplc_cls;?>'><a href="<?php echo base_url();?>booking/replaceRoom"><span>Room Replace</span></a></li>
+   <li class='last <?php echo $day_rep_cls;?>'><a href="<?php echo base_url();?>booking/getDayReport"><span>Day Report</span></a></li>
+   <li class='last <?php echo $pnd_chkout_cls;?>'><a href="<?php echo base_url();?>booking/pendingCheckout"><span>Pending Checkout</span></a></li>
+</ul>
+</div>
+            
+            
+            
+            </td>
+        <td align="center" bgcolor="#BFA06B" class="footer_text">
+            
+            <div id='cssmenu'>
+<ul>
+<?php
                     if($this->session->userdata('user_details')) {
                         ?>
-                    <td align="right" valign="middle"><?php echo ucfirst($this->user_details->emp_fname).' '.$this->user_details->emp_lname?></td>
-<?php
+   <li class='active'><?php echo ucfirst($this->user_details->emp_fname).' '.$this->user_details->emp_lname?></li>
+  <?php
                     }
                     else {
                         ?>
-                    <td width="4" align="left" valign="middle">&nbsp;</td>
-                    <?php
+                        
+                         <?php
 }
                     if($this->session->userdata('user_details')) {
                         ?>
-                    <td height="25" align="right" valign="middle"><a href="<?php echo base_url();?>booking/changepwd" style="color:#FFF;" class="white_bold_txt_12px jlo">Change Password</a></td>
-                    <td height="25" align="right" valign="middle"><a href="<?php echo base_url();?>login/logout" style="color:#FFF;"  class="white_bold_txt_12px jlo">LogOut</a></td>
-                    <?php
+                        
+   <li class='has-sub'><a href="<?php echo base_url();?>booking/changepwd" style="color:#FFF;" ><span>Change Password</span></a>
+      
+   </li>
+   <li class='has-sub'><a href="<?php echo base_url();?>login/logout" style="color:#FFF;"><span>LogOut</span></a>
+     
+   </li>
+     <?php
 }
 else {
                         ?>
-                    <td width="35" height="25" align="right" valign="middle"><a href="<?php echo base_url();?>login" class="white_bold_txt_12px jli">Login</a></td>
-                    <?php
-                    }
-                    ?>
-                    <td align="left" valign="middle">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td height="1" colspan="2" ></td>
-                </tr>
-      </table></td>
+  
+   <li class='last'><a href="<?php echo base_url();?>login" ><span>Login</span></a></li>
+  
+  <?php
+                }
+              ?>
+</ul>
+</div>
+            
+            
+            
+            </td>
     </tr>
 </table>

@@ -33,6 +33,7 @@ class Booking extends MY_Controller {
         $data['adv_todate'] = date('d-m-Y', time()+(10*86400));
         $data['session_id'] = MD5($this->session->userdata('session_id'));
         //$data['penco'] = $this->getPendingRoomsCnt(false);
+		$data['from_page'] = 'room_booking';
         $this->load->view('booking/index',$data);
     }
 
@@ -91,7 +92,8 @@ class Booking extends MY_Controller {
     }
 
     public function pendingCheckout(){
-        $this->load->view('pendingcheckout/index');
+        $data['from_page'] = 'pending_checkout';
+		$this->load->view('pendingcheckout/index',$data);
         //echo 'Rooms need to checkout';
     }
 
@@ -187,6 +189,7 @@ class Booking extends MY_Controller {
         $data['user_name'] = $this->user_details->emp_fname.' '.$this->user_details->emp_lname;
         $data['date'] = $date;
         //echo '<pre>'; print_r($data); die;
+		$data['from_page'] = 'day_report';
         $this->load->view('reports/index',$data);
     }
     public function ticket($app_id = 0,$replace='') {
@@ -195,11 +198,17 @@ class Booking extends MY_Controller {
         //echo '<pre>';		print_r($data);die;
         $data['user_name'] = $this->user_details->emp_fname.' '.$this->user_details->emp_lname;
         $data['replace'] = $replace;
-        $this->load->view('booking/ticket',$data);
+        $data['from_page'] = 'room_booking';
+		if($replace!='')
+		{
+			$data['from_page'] = 'replaceRoom';
+		}
+		$this->load->view('booking/ticket',$data);
     }
 
     public function checkOut() {
-        $this->load->view('checkout/index');
+        $data['from_page']='check_out';
+		$this->load->view('checkout/index',$data);
     }
     public function getBookingDetails() {
         $where_cond = ' ad.application_id="'.trim($_POST['application_id']).'"';
@@ -290,7 +299,8 @@ class Booking extends MY_Controller {
                 }
             }
         }
-        $this->load->view('booking/replace_room');
+		$data['from_page']='replaceRoom';
+        $this->load->view('booking/replace_room',$data);
     }
 
     public function getBookingReplaceDetails() {
