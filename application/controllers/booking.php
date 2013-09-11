@@ -189,11 +189,12 @@ class Booking extends MY_Controller {
         //echo '<pre>'; print_r($data); die;
         $this->load->view('reports/index',$data);
     }
-    public function ticket($app_id = 0) {
+    public function ticket($app_id = 0,$replace='') {
         $where_cond = ' ad.id='.$app_id;
         $data['booking_det'] = $this->booking_model->getBookingDetails($where_cond);
         //echo '<pre>';		print_r($data);die;
         $data['user_name'] = $this->user_details->emp_fname.' '.$this->user_details->emp_lname;
+        $data['replace'] = $replace;
         $this->load->view('booking/ticket',$data);
     }
 
@@ -273,14 +274,15 @@ class Booking extends MY_Controller {
         if(isset($_POST['rooms_id']) && $_POST['rooms_id'] != '')
         {
             /*echo '<pre>';
-            print_r($_POST);*/
+            print_r($_POST);
+            die;*/
             if($_POST['old_rooms_id'] != $_POST['rooms_id'])
             {
                 $app_det_id = $this->booking_model->replaceRoom($_POST);
-                if($this->booking_model->replaceRoom($_POST))
+                if($app_det_id)//$this->booking_model->replaceRoom($_POST)
                 {
                     //echo 'success';
-                    redirect("booking/ticket/$app_det_id");
+                    redirect("booking/ticket/$app_det_id/replace");
                 }
                 else
                 {
@@ -295,18 +297,38 @@ class Booking extends MY_Controller {
         $where_cond = ' ad.application_id="'.$_POST['application_id'].'"';
         $data['booking_det'] = $this->booking_model->getBookingDetails($where_cond);
         //echo '<pre>';print_r($data);die;
-        $data['user_name'] = $this->user_details->emp_fname.' '.$this->user_details->emp_lname;
-        $data['app_id'] = $_POST['application_id'];
-        if(!empty($data['booking_det']))
+        if($data['booking_det'][0]->total_amount_paid_old > 0)
         {
-            $post = array('from_date'=>str_replace('/','-',$data['booking_det'][0]->from_date),//date('Y-m-d',strtotime($data['booking_det'][0]->from_date)),
-                            'to_date'=>str_replace('/','-',$data['booking_det'][0]->to_date),//date('Y-m-d',strtotime($data['booking_det'][0]->to_date)),
-                            'blocks_id'=>$data['booking_det'][0]->block_id,
-                            'rooms_id'=>$data['booking_det'][0]->room_id,
-                            'booking_type'=>1);
-            $data['rooms_opts'] = $this->booking_model->getAvaliableBlocksRooms($post);
+            echo 'Room can be replaced only once..';
         }
-        echo $this->load->view('booking/replace_details',$data,true);
+        else
+        {
+            $data['user_name'] = $this->user_details->emp_fname.' '.$this->user_details->emp_lname;
+            $data['app_id'] = $_POST['application_id'];
+            if(!empty($data['booking_det']))
+            {
+                $post = array('from_date'=>str_replace('/','-',$data['booking_det'][0]->from_date),//date('Y-m-d',strtotime($data['booking_det'][0]->from_date)),
+                                'to_date'=>str_replace('/','-',$data['booking_det'][0]->to_date),//date('Y-m-d',strtotime($data['booking_det'][0]->to_date)),
+                                'blocks_id'=>$data['booking_det'][0]->block_id,
+                                'rooms_id'=>$data['booking_det'][0]->room_id,
+                                'booking_type'=>1);
+                $data['rooms_opts'] = $this->booking_model->getAvaliableBlocksRooms($post);
+            }
+
+            $data['today'] = $data['from_date'] = date('d-m-Y');
+            $data['tomorrow'] = $data['to_date'] = date('d-m-Y', time()+86400);
+            $data['php'] = true;
+            $data['booking_type'] = 1; // by default current booking
+            $data['master_data'] = $this->booking_model->getAvaliableBlocksRooms($data);
+            /*echo '<pre>';
+            print_r($data);die;*/
+            $data['cur_date'] = date('d-m-Y', time());
+            $data['adv_date'] = date('d-m-Y', time()+(8*86400));
+            $data['adv_todate'] = date('d-m-Y', time()+(10*86400));
+            $data['session_id'] = MD5($this->session->userdata('session_id'));
+
+            echo $this->load->view('booking/replace_details',$data,true);
+        }
     }
 }
 

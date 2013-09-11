@@ -161,7 +161,7 @@ document.oncontextmenu=new Function("alert(message);return false")
 					<td align="left" valign="top">
 						<table width="98%" border="1" cellspacing="1" cellpadding="1" align="center" id="the_content" class="tabborder">
 							<tr>
-								<td align="center" valign="top" ><h1>Room Booking Ticket Details</h1></td>
+								<td align="center" valign="top" ><h1>Room Booking Ticket Details <?php if($replace == 'replace'){echo ' ( Replaced Room )';}?></h1></td>
 							</tr>
 							<tr>
 								<td align="center" valign="top" class="barheading">

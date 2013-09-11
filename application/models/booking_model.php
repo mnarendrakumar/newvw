@@ -535,7 +535,7 @@ class Booking_model extends MY_Model {
                 date_format(bd.checkout_date,'%d/%m/%Y %h:%i %p') as checkout_date,date_format(ad.created_date,'%d/%m/%Y') as created_date,
                 bd.no_of_days, bd.booking_type,bd.booked_status,bd.booking_type,
                 b.name as block_name,b.telugu_name,r.name as room_name,
-                rp.id as rcpt_id,rp.deposit_amt,rp.rent_amount,rp.advance_amount,rp.total_amount_paid
+                rp.id as rcpt_id,rp.deposit_amt,rp.rent_amount,rp.advance_amount,rp.total_amount_paid,rp.total_amount_paid_old
                 from application_details ad
                 left join booking_details bd on ad.id = bd.application_details_id
                 left join blocks b on bd.blocks_id = b.id
@@ -638,9 +638,21 @@ class Booking_model extends MY_Model {
 
     function replaceRoom($post)
     {
-        $sql = 'UPDATE `booking_details` SET `rooms_id`='.$post['rooms_id'].' WHERE  `application_details_id`='.$post['app_det_id'].' LIMIT 1;';
+        $user_details = unserialize($this->session->userdata('user_details'));
+        $receipt_details_sql = 'SELECT * FROM receipts WHERE id = '.$post['rcpt_id'];
+        $rs = $this->db->query($receipt_details_sql);
+        $receipt_details = $rs->result();
+
+        $sql = 'UPDATE `booking_details` SET `blocks_id`='.$post['blocks_id'].', `rooms_id`='.$post['rooms_id'].', `modified_by`='.$user_details->id.', `modified_date`="'.date('Y-m-d h:i:s').'", `ipaddress`="'.ipaddress().'" WHERE  `application_details_id`='.$post['app_det_id'].' LIMIT 1;';
         if($this->db->query($sql))
         {
+            //$receipt_details = $receipt_details[0];
+            $update_receipt_sql = 'UPDATE receipts SET deposit_amt="'.$post['deposit_amt'].'",rent_amount="'.$post['rent_amount'].'",
+                                    advance_amount="'.$post['advance_amount'].'",total_amount_paid="'.($post['deposit_amt']+$post['rent_amount']).'",
+                                    deposit_amt_old="'.$receipt_details[0]->deposit_amt.'",rent_amount_old="'.$receipt_details[0]->rent_amount.'",
+                                    advance_amount_old="'.$receipt_details[0]->advance_amount.'",total_amount_paid_old="'.$receipt_details[0]->total_amount_paid.'"
+                                    WHERE id='.$post['rcpt_id'];
+            $this->db->query($update_receipt_sql);
             return $post['app_det_id'];
         }
         else

@@ -33,7 +33,7 @@
 								<tr>
 									<td width="21%" align="left" valign="top"><strong>Room Name</strong></td>
 									<td width="14%" align="left" valign="top"><strong>Advance Amount (Rs)</strong></td>
-									<td width="16%" align="left" valign="top"><strong>Deposite Amount (Rs)</strong></td>
+									<td width="16%" align="left" valign="top"><strong>Deposit Amount (Rs)</strong></td>
 									<td width="16%" align="left" valign="top"><strong>Rent Amount (Rs)</strong></td>
 									<td width="13%" align="left" valign="top"><strong>Total Amount (Rs)</strong></td>
 									<td width="20%" align="left" valign="top"><strong>Amount Deposited in Bank (Rs)</strong></td>
