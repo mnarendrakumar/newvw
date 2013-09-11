@@ -68,7 +68,7 @@ class Booking_model extends MY_Model {
     }
 
     function getMasterData() {
-        $blocks_sql = 'select id,name from blocks where status = "1"';
+        $blocks_sql = 'select id,name from blocks where status = "1" order by name asc';
         $data['blocks'] = $this->getDBResult($blocks_sql, 'object');
         $rooms_sql = 'select id,name from rooms where status = "1"';
         $data['rooms'] = $this->getDBResult($rooms_sql, 'object');
@@ -322,7 +322,7 @@ class Booking_model extends MY_Model {
 				left join rooms r on r.id=bd.rooms_id 
 				where rc.received_by=".$user_id." and DATE_FORMAT(rc.received_date,'%Y-%m-%d') = '".$date."' and rc.`status`=1
 				order by blockname,roomname";
-        // echo $sql; die;
+        //echo '<pre>'; echo $sql; die;
         $bookedreport = $this->getDBResult($sql, 'object');
 
         $booked_report_arr = array();
@@ -372,6 +372,159 @@ class Booking_model extends MY_Model {
         $data['con_damage_total_amount'] =$con_damage_total_amount;
         return $data;
     }
+	
+	public function monthly_report($month)
+	{
+		$month = $_POST['year'].'-'.$_POST['month'];
+		$day = date('Y-m-d',strtotime($_POST['rep_date']));		
+		
+		if($_POST['report_type']==1)
+		{
+			$sub_sql = "DATE_FORMAT(rc.received_date,'%Y-%m') = '".$month."'";
+			$heading = date("M", mktime(0, 0, 0, $_POST['month'], 10)).'/'.$_POST['year'].' Monthly Report';
+		}
+		else
+		{
+			$sub_sql = "DATE_FORMAT(rc.received_date,'%Y-%m-%d') = '".$day."'";
+			$heading = date('d/m/Y',strtotime($_POST['rep_date'])).' Day Report';
+		}
+		
+		$sql = "select count(bd.rooms_id) as roomscount,
+				concat(u.emp_fname,' ',u.emp_lname) as ope_name,  
+				b.name as blockname,r.name as roomname,bd.blocks_id,bd.rooms_id,
+				SUM(rc.advance_amount) as advance_amount,
+				SUM(rc.deposit_amt) as deposit_amt,
+				SUM(rc.rent_amount) as rent_amount,
+				SUM(rc.total_amount_paid) as total_amount_paid,
+				SUM(p.deposit_refund_amount) as refund_amount,
+				SUM(p.damage_amount) as damage_amount
+				from receipts rc
+				left join booking_details bd on bd.application_details_id = rc.application_details_id
+				left join blocks b on b.id=bd.blocks_id
+				left join rooms r on r.id=bd.rooms_id
+				left join users u on u.id=rc.received_by
+				left join payments p  on p.receipt_id = rc.id
+				where ".$sub_sql." and rc.`status`=1
+				group by bd.rooms_id
+				order by blockname,roomname"; 
+		$bookedreport = $this->getDBResult($sql, 'object');
+		$total_data = array();
+		$booked_report_arr = array();
+        $con_total_amount = 0;
+        if(!empty($bookedreport)) {
+            foreach($bookedreport as $val) {
+                $booked_report_arr[$val->blockname][] = array('room_name'=>$val->roomname,
+															'no_of_bookings'=>$val->roomscount,
+															'advance_amount'=>$val->advance_amount,
+															'deposit_amt'=>$val->deposit_amt,
+															'rent_amount'=>$val->rent_amount,
+															'total_amount_paid'=>$val->total_amount_paid,
+															'refund_amount'=>$val->refund_amount,
+															'damage_amount'=>$val->damage_amount);
+           }
+        }
+		$total_data['booking_data'] = $booked_report_arr;
+		$total_data['heading'] = $heading;
+		return $total_data;
+	}
+	
+	public function getconsolidatedReport($month)
+	{
+		$month = $_POST['year'].'-'.$_POST['month'];
+		$day = date('Y-m-d',strtotime($_POST['rep_date']));		
+		
+		if($_POST['report_type']==2)
+		{
+			$sub_sql = "DATE_FORMAT(rc.received_date,'%Y-%m') = '".$month."'";
+			$heading = date("M", mktime(0, 0, 0, $_POST['month'], 10)).'/'.$_POST['year'].' Monthly Report';
+		}
+		else
+		{
+			$sub_sql = "DATE_FORMAT(rc.received_date,'%Y-%m-%d') = '".$day."'";
+			$heading = date('d/m/Y',strtotime($_POST['rep_date'])).' Day Report';
+		}
+		
+		$sql = "select u.id as user_id,b.id as block_id,
+				concat(u.emp_fname,' ',u.emp_lname) as ope_name,  
+				b.name as blockname,r.name as roomname,bd.blocks_id,bd.rooms_id,
+				SUM(rc.advance_amount) as advance_amount,
+				SUM(rc.deposit_amt) as deposit_amt,
+				SUM(rc.rent_amount) as rent_amount,
+				SUM(rc.total_amount_paid) as total_amount_paid,
+				IFNULL(SUM(p.deposit_refund_amount),'0.00') as refund_amount,
+				IFNULL(SUM(p.damage_amount),'0.00') as damage_amount
+				from receipts rc
+				left join booking_details bd on bd.application_details_id = rc.application_details_id
+				left join blocks b on b.id=bd.blocks_id
+				left join rooms r on r.id=bd.rooms_id
+				left join users u on u.id=rc.received_by
+				left join payments p  on p.receipt_id = rc.id
+				where ".$sub_sql." and rc.`status`=1
+				group by bd.created_by, bd.blocks_id
+				order by u.id,blockname,roomname"; 
+		$bookedreport = $this->getDBResult($sql, 'object');
+		$total_data = array();
+		$booked_report_arr = array();
+		$users = array();
+        $con_total_amount = 0;
+        if(!empty($bookedreport)) {
+            foreach($bookedreport as $val) {
+                $users[$val->user_id] = $val->ope_name;
+				$booked_report_arr[$val->user_id][$val->block_id] = array('blockname'=>$val->blockname,
+															'ope_name'=>$val->ope_name,
+															'advance_amount'=>$val->advance_amount,
+															'deposit_amt'=>$val->deposit_amt,
+															'rent_amount'=>$val->rent_amount,
+															'total_amount_paid'=>$val->total_amount_paid,
+															'refund_amount'=>$val->refund_amount,
+															'damage_amount'=>$val->damage_amount);
+           }
+        }
+	
+		$users = array_unique($users);
+		$m_data = $this->getMasterData();
+		
+		$final_data = array();
+		foreach ($m_data['blocks'] as $val)
+		{
+			$block_id = $val->id;
+			
+			foreach($users as $k_u=>$k_v)
+			{
+				$details['block_name'] = $val->name;
+				if(isset($booked_report_arr[$k_u][$block_id]))
+				{
+					$total_collected_amount = $booked_report_arr[$k_u][$block_id]['advance_amount']+$booked_report_arr[$k_u][$block_id]['deposit_amt']+$booked_report_arr[$k_u][$block_id]['rent_amount'];
+					$refund_amount = $booked_report_arr[$k_u][$block_id]['refund_amount'];
+					$damage_amount = $booked_report_arr[$k_u][$block_id]['damage_amount'];
+					$total_amt = $total_collected_amount-$refund_amount;
+					
+					$details['total_collected_amount'.$k_u] = $total_collected_amount;
+					$details['refund_amount'.$k_u] = $refund_amount;
+					$details['damage_amount'.$k_u] = $damage_amount;
+					$details['total_amt'.$k_u] = $total_amt;
+				}
+				else
+				{
+					$details['total_collected_amount'.$k_u] = '0.00';
+					$details['refund_amount'.$k_u] = '0.00';
+					$details['damage_amount'.$k_u] = '0.00';
+					$details['total_amt'.$k_u] = '0.00';
+				}
+
+			}
+			
+			$final_data[$block_id] = $details;
+		}
+		
+		$total_data['booking_data'] = $final_data;
+		$total_data['users'] = $users;
+		$total_data['heading'] = $heading;
+		/*echo '<pre>';
+		print_r($total_data);
+		die;*/
+		return $total_data;
+	}
 
     public function getBookingDetails($where_cond = 1) {
         $sql = "select b.id as block_id, r.id as room_id, ad.id as app_det_id,ad.application_id, ad.customer_id,

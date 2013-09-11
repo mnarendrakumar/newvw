@@ -166,7 +166,7 @@ $(document).ready(function() {
 			});
 		}
 	});
-	$('.jcheckout').live('click',function(){
+	$('.jcheckout').click(function(){
 		$("#checkout_details").submit();
 	})
 	var timeStart = false;

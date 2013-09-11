@@ -167,6 +167,16 @@ class Admin extends MY_Controller {
 	//echo '<pre>'; print_r($data); die;
 	 $this->load->view('admin/getDayReport',$data);
     }
+	 public function monthly_report() {
+		$this->load->view('admin/monthly_report');
+    }
+
+	public function getMonthlyReport() {
+		$data = $this->booking_model->monthly_report($_POST);
+        //print_r($data); die;
+		$this->load->view('details_report',$data);
+    }
+	
 	 public function getDetailDayReport() {
 		$date = date('Y-m-d',strtotime($_POST['rep_date']));
 		$ip_array = array('date'=>$date, 
@@ -184,6 +194,18 @@ class Admin extends MY_Controller {
         $data['date'] = $date;
         //echo '<pre>'; print_r($data); die;
         $this->load->view('day_report',$data);
+    }
+	
+	public function conDayReport() {
+	 
+	 $data['users'] = $this->users;
+	 $this->load->view('admin/conDayReport',$data);
+    }
+	
+	public function getconsolidatedReport() {
+		$data = $this->booking_model->getconsolidatedReport($_POST);
+        //print_r($data); die;
+		$this->load->view('consolidated_report',$data);
     }
 	
     public function get_app_details() {

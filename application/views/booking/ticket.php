@@ -86,6 +86,10 @@ margin-left: 10px;
 <link href="<?php echo base_url();  ?>public/css/general/style.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo base_url();  ?>public/css/general/style2.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo base_url();  ?>public/css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" language="javascript">
+var base_url="<?php echo site_url();?>";
+var main_url="<?php echo base_url();?>";
+</script>
 <script type="text/javascript" language="javascript" src="<?php echo base_url();  ?>public/js/library.js" ></script>
 <script type="text/javascript" language="javascript" src="<?php echo base_url();  ?>public/js/validate.js" ></script>
 
