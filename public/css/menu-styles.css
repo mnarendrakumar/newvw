@@ -37,12 +37,12 @@
   position: relative;
 }
 #cssmenu > ul > li > a {
-  padding: 15px 4px;
+  padding: 15px 8px;
   display: block;
   color: white;
   font-size: 11px;
   text-decoration: none;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
   text-shadow: 0 -1px 0 #9e3825;
   text-shadow: 0 -1px 0 rgba(116, 37, 2, 0.7);
   line-height: 18px;
@@ -99,7 +99,7 @@
   color: #393939;
   font-size: 13px;
   text-decoration: none;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
   width: 150px;
   border-left: 4px solid transparent;
   -webkit-transition: all 0.35s ease-in-out;
