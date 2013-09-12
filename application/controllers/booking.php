@@ -39,6 +39,13 @@ class Booking extends MY_Controller {
 
     public function roomBooking() {
         if (formtoken::validateToken($_POST)) {
+            $where_cond = ' blocks_id = "'.$_POST['blocks_id'].'" and rooms_id = "'.$_POST['blocks_id'].'" and booked_status = 1';
+            $booked_status = $this->booking_model->getBookingStatus($where_cond);
+            if($booked_status[0]->booked_status)
+            {
+                die('Room is already Booked for the day.. Please <a href="'.base_url().'booking">click here</a> to book a new Room');
+            }
+
             if($_POST['booking_type'] == 2)
             {
                 $_POST['from_date'] = date('d-m-Y',strtotime($_POST['from_date'])-86400); // reduce one day as room will be blocked before one day
@@ -220,7 +227,8 @@ class Booking extends MY_Controller {
     }
 
     public function updatecheckout() {
-        $booked_status = $this->booking_model->getBookingStatus($_POST['booking_det_id']);
+        $where_cond = ' id = "'.$_POST['booking_det_id'].'"';
+        $booked_status = $this->booking_model->getBookingStatus($where_cond);
 
         //echo '<pre>'; print_r($booked_status); die;
         if($booked_status[0]->booked_status == '1') {

@@ -549,9 +549,8 @@ class Booking_model extends MY_Model {
         return $booking_details;
     }
 
-    public function getBookingStatus($booking_id=0) {
-        $sql = "select booked_status
-				from booking_details where id = ".$booking_id;
+    public function getBookingStatus($where_cond = 1) {
+        $sql = "select booked_status from booking_details where ".$where_cond;
         $booked_status = $this->getDBResult($sql, 'object');
         return $booked_status;
     }
