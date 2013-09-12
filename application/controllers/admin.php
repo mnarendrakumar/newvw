@@ -19,7 +19,8 @@ class Admin extends MY_Controller {
     }
 	public function blocks() {
 	
-        $this->load->view('admin/blocks');
+        $data['from_page'] = 'blocks';
+		$this->load->view('admin/blocks',$data);
     }
 	public function getblocks()
     {
@@ -67,6 +68,7 @@ class Admin extends MY_Controller {
 	public function rooms() {
 	
         $data['blocks'] = $this->common_model->getTableDetails('id,name','blocks','status=1');
+		$data['from_page'] = 'rooms';
 		//echo '<pre>'; print_r($data['blocks']); die;
 		$this->load->view('admin/rooms',$data);
     }
@@ -115,7 +117,8 @@ class Admin extends MY_Controller {
 	
 	public function users() {
 	
-        $this->load->view('admin/users');
+        $data['from_page'] = 'users';
+		$this->load->view('admin/users',$data);
     }
 	public function getusers()
     {
@@ -163,12 +166,13 @@ class Admin extends MY_Controller {
 	 public function getDayReport() {
 	 
 	 $data['users'] = $this->users;
-	 
+	 $data['from_page'] = 'reports';
 	//echo '<pre>'; print_r($data); die;
 	 $this->load->view('admin/getDayReport',$data);
     }
 	 public function monthly_report() {
-		$this->load->view('admin/monthly_report');
+		$data['from_page'] = 'reports';
+		$this->load->view('admin/monthly_report',$data);
     }
 
 	public function getMonthlyReport() {
@@ -197,8 +201,8 @@ class Admin extends MY_Controller {
     }
 	
 	public function conDayReport() {
-	 
 	 $data['users'] = $this->users;
+	 $data['from_page'] = 'reports';
 	 $this->load->view('admin/conDayReport',$data);
     }
 	
@@ -209,7 +213,8 @@ class Admin extends MY_Controller {
     }
 	
     public function get_app_details() {
-        $this->load->view('admin/get_app_details');
+		$data['from_page'] = 'app_details';
+        $this->load->view('admin/get_app_details',$data);
     }
     public function getApplicationDetails() {
         $where_cond = ' ad.application_id="'.trim($_POST['application_id']).'"';
@@ -230,6 +235,7 @@ class Admin extends MY_Controller {
 			$blocks_array[$v->id] =  $v->name;
 		}
 		$data['blocks'] = $blocks_array;
+		$data['from_page'] = 'rooms_sts';
 		$this->load->view('admin/roomsstatus',$data);
 		
 	}
@@ -247,7 +253,7 @@ class Admin extends MY_Controller {
 			$blocks_array[$v->id] =  $v->name;
 		}
 		$result['blocks'] = $blocks_array;
-		
+		$data['from_page'] = 'avail_rooms';
 		//echo '<pre>';echo count($master_data[1]);print_r($master_data);die;
 		$this->load->view('admin/availablerooms',$result);
 		
