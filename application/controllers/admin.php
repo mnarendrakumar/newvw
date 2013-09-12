@@ -254,7 +254,7 @@ class Admin extends MY_Controller {
 			$blocks_array[$v->id] =  $v->name;
 		}
 		$result['blocks'] = $blocks_array;
-		$data['from_page'] = 'avail_rooms';
+		$result['from_page'] = 'avail_rooms';
 		//echo '<pre>';echo count($master_data[1]);print_r($master_data);die;
 		$this->load->view('admin/availablerooms',$result);
 		

@@ -1,7 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:600);
 /* Menu CSS */#cssmenu,
 #cssmenu > ul {
-  background: url(../images/highlight-bg.png) repeat;
+  background: url(./images/highlight-bg.png) repeat;
   padding-bottom: 3px;
   font-family: 'Open Sans', sans-serif;
   font-weight: 98%;

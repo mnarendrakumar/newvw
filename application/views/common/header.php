@@ -39,12 +39,12 @@ if(isset($from_page) && $from_page == 'pending_checkout')
 
 <table width="1003" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
-        <td colspan="2" align="center" class="footer_text"><img src="<?php echo base_url();  ?>public/images/logo.png" /></td>
+        <td colspan="2" align="center" ><img src="<?php echo base_url();  ?>public/images/logo.png" /></td>
     </tr>
     <tr>
-        <td align="center" bgcolor="#BFA06B" class="footer_text">
+        <td align="center" bgcolor="#E76D4C"  width="65%">
             
-            <div id='cssmenu'>
+            <div id='cssmenu' >
 <ul>
    <li class='<?php echo $home_cls;?>'><a href="<?php echo base_url();?>home"><span>Home</span></a></li>
    <li class='has-sub <?php echo $bokrooms_cls;?>'><a href="<?php echo base_url();?>booking"><span>Book a Rooms</span></a></li>
@@ -57,22 +57,20 @@ if(isset($from_page) && $from_page == 'pending_checkout')
             
             
             
-            </td>
-        <td align="center" bgcolor="#BFA06B" class="footer_text">
+      </td>
+        <td width="35%" height="35" align="center" bgcolor="#E76D4C"  >
             
-            <div id='cssmenu'>
+            <div id='cssmenu' style="float:right;">
 <ul>
 <?php
                     if($this->session->userdata('user_details')) {
                         ?>
-   <li class='active'><?php echo ucfirst($this->user_details->emp_fname).' '.$this->user_details->emp_lname?></li>
+  <li class='has-sub' style="margin:8px 0px 0px 1px;"><span ><?php echo ucfirst($this->user_details->emp_fname).' '.$this->user_details->emp_lname;?></span></li>
+   
+  
   <?php
                     }
-                    else {
-                        ?>
-                        
-                         <?php
-}
+                    
                     if($this->session->userdata('user_details')) {
                         ?>
                         
@@ -97,6 +95,6 @@ else {
             
             
             
-            </td>
+      </td>
     </tr>
 </table>
