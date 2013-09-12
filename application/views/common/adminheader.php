@@ -45,7 +45,7 @@ if($from_page == 'avail_rooms')
 		<td colspan="2" align="center" bgcolor="#BFA06B" class="footer_text"><img src="<?php echo base_url();  ?>public/images/logo.png" /></td>
 	</tr>
 	<tr>
-	  <td width="70%" align="left" background="../../../public/images/menu-bg.png" bgcolor="#E66C4B" >
+	  <td width="70%" align="left" background="../../../public/images/menu-bg.png" bgcolor="#ee6d4f" >
       
       
       
@@ -71,7 +71,7 @@ if($from_page == 'avail_rooms')
       
       
       </td>
-	  <td width="30%" align="right" background="../../../public/images/menu-bg.png" bgcolor="#E66C4B" >
+	  <td width="30%" align="right" background="../../../public/images/menu-bg.png" bgcolor="#ee6d4f" >
       
       
       <div id='cssmenu' style="float:right;">

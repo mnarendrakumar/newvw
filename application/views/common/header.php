@@ -42,7 +42,7 @@ if(isset($from_page) && $from_page == 'pending_checkout')
         <td colspan="2" align="center" ><img src="<?php echo base_url();  ?>public/images/logo.png" /></td>
     </tr>
     <tr>
-        <td align="center" bgcolor="#E76D4C"  width="65%">
+        <td align="center" bgcolor="#ee6d4f"  width="65%">
             
             <div id='cssmenu' >
 <ul>
@@ -51,14 +51,14 @@ if(isset($from_page) && $from_page == 'pending_checkout')
    <li class='has-sub <?php echo $chk_out_cls;?>'><a href="<?php echo base_url();?>booking/checkOut"><span>Check Out</span></a></li>
    <li class='last <?php echo $rom_rplc_cls;?>'><a href="<?php echo base_url();?>booking/replaceRoom"><span>Room Replace</span></a></li>
    <li class='last <?php echo $day_rep_cls;?>'><a href="<?php echo base_url();?>booking/getDayReport"><span>Day Report</span></a></li>
-   <li class='last <?php echo $pnd_chkout_cls;?>'><a href="<?php echo base_url();?>booking/pendingCheckout"><span>Pending Checkout</span></a></li>
+   <li class='last <?php echo $pnd_chkout_cls;?>'><a href="<?php echo base_url();?>booking/pendingCheckout"><span>Pending Checkout<span id="penco" style="color:#C92020">(0)</span></span></a></li>
 </ul>
 </div>
             
             
             
       </td>
-        <td width="35%" height="35" align="center" bgcolor="#E76D4C"  >
+        <td width="35%" height="35" align="center" bgcolor="#ee6d4f"  >
             
             <div id='cssmenu' style="float:right;">
 <ul>
