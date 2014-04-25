@@ -18,6 +18,7 @@ class Admin extends MY_Controller {
         $data['from_page'] = 'blocks';
 		$data['input'] = 'rooms';
 		$data['input1'] = 'rooms2';
+		$data['input2'] = 'rooms3';
 		$this->load->view('admin/blocks',$data);
     }
 	public function blocks() {
