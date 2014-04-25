@@ -16,6 +16,7 @@ class Admin extends MY_Controller {
 
     public function index() {
         $data['from_page'] = 'blocks';
+		$data['input'] = 'rooms';
 		$this->load->view('admin/blocks',$data);
     }
 	public function blocks() {
